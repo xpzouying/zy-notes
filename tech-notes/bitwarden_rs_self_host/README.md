@@ -9,7 +9,6 @@
 - vaultwarden / bitwarden
 
 
-
 ### 安装
 
 Docker-compose安装Bitwarden
@@ -31,6 +30,14 @@ services:
       - ./data:/data
 ```
 
+### 创建证书
+
+```bash
+sudo certbot certonly --standalone
+
+# Certificate is saved at: /etc/letsencrypt/live/zy.example.com/fullchain.pem
+# Key is saved at:         /etc/letsencrypt/live/zy.example.com/privkey.pem
+```
 
 
 ## 参考资料
