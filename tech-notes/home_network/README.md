@@ -271,3 +271,9 @@ Mac Mini只使用了单根网线（因为只有一个网卡），同时提供有
 
 结合目前情况，准备入手wifi6路由器后，才能在无线连接的情况下充分利用上千兆宽带。
 
+增加小米ax9000路由器的压测（+Macbook M1 2020款）
+
+![image](https://user-images.githubusercontent.com/3946563/128637882-8bbd7542-e7e4-4918-99da-b3334dc8780c.png)
+
+
+
