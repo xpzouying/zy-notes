@@ -275,5 +275,8 @@ Mac Mini只使用了单根网线（因为只有一个网卡），同时提供有
 
 ![image](https://user-images.githubusercontent.com/3946563/128637882-8bbd7542-e7e4-4918-99da-b3334dc8780c.png)
 
+使用小米ax9000路由器（160MHz频段、即默认的电竞频段）+Macbook M1 2002款
+![image](https://user-images.githubusercontent.com/3946563/128638638-8bf8bb22-a9a5-4f3f-ab8a-dbae4aaf6eb4.png)
+
 
 
