@@ -16,7 +16,7 @@ OpenWrt的版本：
 
 ### 2.1 安装Openwrt
 
-**2.1.1 下载OpenWrt的固件：**找一个Openwrt固件下载，我这里用的[OpenWrt eSir](https://openwrt.club/dl)精品小包版本。
+**2.1.1 下载OpenWrt的固件：** 找一个Openwrt固件下载。（之前推荐的固件可能有问题，自从装了那个固件后，搬瓦工出现过多次邮件攻击，怀疑是OpenWrt固件的问题）
 
 **2.1.2 制作镜像**
 
