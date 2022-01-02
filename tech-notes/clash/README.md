@@ -68,19 +68,25 @@ iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports 7892
 iptables -t nat -A PREROUTING -p tcp -j CLASH
 ```
 
-Clash接收DNS的处理。（假设clash dns配置监听了1053）
+路由表每次开机都会恢复到默认值，可以使用下列进行持久化：
 
 ```bash
-#在nat表中新建一个clash_dns规则链
-iptables -t nat -N CLASH_DNS
-#清空clash_dns规则链
-iptables -t nat -F CLASH_DNS
-#重定向udp流量到本机1053端口
-iptables -t nat -A CLASH_DNS -p udp -j REDIRECT --to-port 1053
-#抓取本机产生的53端口流量交给clash_dns规则链处理
-iptables -t nat -I OUTPUT -p udp --dport 53 -j CLASH_DNS
-#拦截外部upd的53端口流量交给clash_dns规则链处理
-iptables -t nat -I PREROUTING -p udp --dport 53 -j CLASH_DNS
+sudo apt install iptables-persistent
+
+sudo dpkg-reconfigure iptables-persistent
+```
+
+
+## 路由器恢复
+
+```bash
+iptables -t nat -D PREROUTING -p tcp -j CLASH
+iptables -t nat -D OUTPUT -p udp --dport 53 -j CLASH_DNS
+iptables -t nat -D PREROUTING -p udp --dport 53 -j CLASH_DNS
+iptables -t nat -F CLASH
+iptables -t nat -X CLASH
+iptables -t nat -F CLASH
+iptables -t nat -X CLASH_DNS
 ```
 
 
