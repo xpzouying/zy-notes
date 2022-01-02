@@ -4,9 +4,10 @@
 
 OpenWrt的版本：
 
-- [openwrt eSir大佬版本](https://openwrt.club/dl)
-  - 分`精品小包`和`高大全版本`。我使用了`精品小包`。
+- [OpenWrt精简版本](https://op.supes.top/) 
+  说明：固件请自己选择。之前本人使用了某个版本的固件后，出现了3次`Mass Mailing`邮件攻击，导致VPS被停掉的事件。
 - [恩山OpenWrt](https://www.right.com.cn/forum/thread-4053752-1-1.html)
+- [OpenWRT磁盘扩容](https://www.evernote.com/shard/s642/client/snv?noteGuid=35a02421-5ad1-44d7-b8f7-f745fe7ac28a&noteKey=592e15f4a3f1e9da8459cf11bc2ec87c&sn=https%3A%2F%2Fwww.evernote.com%2Fshard%2Fs642%2Fsh%2F35a02421-5ad1-44d7-b8f7-f745fe7ac28a%2F592e15f4a3f1e9da8459cf11bc2ec87c)
 
 
 
