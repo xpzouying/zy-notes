@@ -33,8 +33,130 @@
 ./clash -d . 
 ```
 
+## 配置（新）
 
-## 配置
+参考这里：[Clash-Linux](https://github.com/yuanlam/Clash-Linux)
+
+
+1、首先关闭ubuntu server的自身的dns
+
+```bash
+sudo vim /etc/systemd/resolved.conf
+
+# 设置为no，其他的不变
+DNSStubListener=no
+
+# 重启
+reboot
+```
+
+
+2、配置iptables
+
+
+我的ip地址是：`192.168.50.8`
+
+```bash
+#!/bin/bash
+
+# 修改成自己的IP地址
+ClashHost=192.168.50.8
+
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+iptables -t nat -N clash
+iptables -t nat -N clash_dns
+
+iptables -t nat -A PREROUTING -p tcp --dport 53 -d 198.18.0.0/24 -j clash_dns
+iptables -t nat -A PREROUTING -p udp --dport 53 -d 198.18.0.0/24 -j clash_dns
+iptables -t nat -A PREROUTING -p tcp -j clash
+
+iptables -t nat -A clash_dns -p udp --dport 53 -d 198.18.0.0/24 -j DNAT --to-destination ${ClashHost}:53
+iptables -t nat -A clash_dns -p tcp --dport 53 -d 198.18.0.0/24 -j DNAT --to-destination ${ClashHost}:53
+
+iptables -t nat -A clash -d 1.0.0.0/8 -j ACCEPT
+iptables -t nat -A clash -d 10.0.0.0/8 -j ACCEPT
+iptables -t nat -A clash -d 100.64.0.0/10 -j ACCEPT
+iptables -t nat -A clash -d 127.0.0.0/8 -j ACCEPT
+iptables -t nat -A clash -d 169.254.0.0/16 -j ACCEPT
+iptables -t nat -A clash -d 172.16.0.0/12 -j ACCEPT
+iptables -t nat -A clash -d 192.168.0.0/16 -j ACCEPT
+iptables -t nat -A clash -d 224.0.0.0/4 -j ACCEPT
+iptables -t nat -A clash -d 240.0.0.0/4 -j ACCEPT
+iptables -t nat -A clash -d 192.168.1.2/32 -j ACCEPT
+
+# iptables -t nat -A clash -p tcp --dport 22 -d ${ClashHost}/32 -j ACCEPT
+
+iptables -t nat -A clash -p tcp -j REDIRECT --to-ports 7892
+```
+
+
+## 设置开机启动
+
+1、创建service文件
+
+```bash
+sudo vim /etc/systemd/system/clash.service
+```
+
+2、内容如下
+
+注意需要root权限运行。
+
+```
+[Unit]
+Description=clash daemon
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/zy/clash/clash -d /home/zy/clash
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+3、重新加载
+
+```bash
+sudo systemctl daemon-reload
+
+sudo systemctl start clash.service
+
+# 开机自启动
+sudo systemctl enable clash.service
+```
+
+
+4、运维
+
+```bash
+
+# 查看日志
+sudo journalctl -u clash.service -f
+```
+
+
+## 开机加载iptables规则
+
+```bash
+# 保存规则
+sudo iptables-save > /etc/iptables.rules
+
+```
+
+
+## 设置家庭其他机器网络
+
+- 网关/Gateway - 设置为clash的ip
+
+- DNS - 设置为：198.18.0.1。clash配置文件中的配置，会走`fake-ip`策略。
+
+
+## 配置 （旧）
 
 按照[haoel陈皓老师的配置](https://github.com/haoel/haoel.github.io#74-%E8%AE%BE%E7%BD%AE-iptables-%E8%BD%AC%E5%8F%91)，设置iptables。
 
@@ -93,5 +215,7 @@ iptables -t nat -X CLASH_DNS
 参考资料：
 
 - [左耳朵](https://github.com/haoel/haoel.github.io)
+
+- [Clash-Linux](https://github.com/yuanlam/Clash-Linux) - Linux上面如何部署Clash。
 
 - [Docker+Clash 部署透明“网关”的实现](https://zhuanlan.zhihu.com/p/423684520)
